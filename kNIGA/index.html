@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КнигаПамяти</title>
+    <link rel="shortcut icon" type="image/png" href="img/ZlatIK.png" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/page-flip.module.js"></script>
+    <style>
+        button {
+            font: bold 10px sans-serif;
+            padding: 3px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: rgba(0,0,0,0);
+            color: rgba(0,0,0,0);
+        }
+    </style>
+</head>
+<body>
+    <script>
+
+        // Функция для загрузки данных страниц из localStorage
+    
+        function loadPageData() {
+    
+            for (let i = 1; i <= 12; i++) { // Предполагаем, что у вас 12 страниц
+    
+                const pageData = localStorage.getItem(`page-${i}`);
+    
+                if (pageData) {
+    
+                    const { title, image } = JSON.parse(pageData);
+    
+                    const pageElement = document.getElementById(`page-${i}`);
+    
+                    if (pageElement) {
+    
+                        const pageContent = pageElement.querySelector('.page-content');
+    
+                        pageContent.innerHTML = `
+    
+                            <img class="page-image" src="${image}" />
+    
+                            <div class="page-footer">${title}</div>
+    
+                        `;
+    
+                    }
+    
+                }
+    
+            }
+    
+        }
+    
+    
+        // Загружаем данные при загрузке страницы
+    
+        window.onload = loadPageData;
+    
+    </script>
+<button id="auditButton" class="btn btn-warning" style="position: absolute; bottom: 10px; right: 10px;">Аудит</button>
+
+<script>
+    // Добавляем обработчик события для кнопки "Аудит"
+    document.getElementById('auditButton').addEventListener('click', function() {
+        window.location.href = 'tracker.html'; // Путь к файлу audit/index.html
+    });
+</script>
+    <div id="sidebar" class="sidebar">
+        <button id="closeSidebar" class="btn btn-danger">Закрыть</button>
+        <h2>Содержание книги</h2>
+        <ul>
+            <li><a href="#" data-page="1">Страница 1</a></li>
+            <li><a href="#" data-page="2">Страница 2</a></li>
+            <li><a href="#" data-page="3">Страница 3</a></li>
+            <li><a href="#" data-page="4">Страница 4</a></li>
+            <li><a href="#" data-page="5">Страница 5</a></li>
+            <li><a href="#" data-page="6">Страница 6</a></li>
+            <li><a href="#" data-page="7">Страница 7</a></li>
+            <li><a href="#" data-page="8">Страница 8</a></li>
+            <li><a href="#" data-page="9">Страница 9</a></li>
+            <li><a href="#" data-page="10">Страница 10</a></li>
+            <li><a href="#" data-page="11">Страница 11</a></li>
+            <li><a href="#" data-page="12">Страница 12</a></li>
+            <li><a href="#" data-page="13">Страница 13</a></li>
+            <li><a href="#" data-page="14">Страница 14</a></li>
+            <li><a href="#" data-page="15">Страница 15</a></li>
+            <li><a href="#" data-page="16">Страница 16</a></li>
+            <li><a href="#" data-page="17">Страница 17</a></li>
+            <li><a href="#" data-page="18">Страница 18</a></li>
+        </ul>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Введите номер страницы..." />
+        <button type="button" id="searchButton">Искать</button>
+    </div>  
+    <button id="toggleSidebar" class="btn btn-primary" style="position: absolute; top: 10px; left: 10px;">☰</button>  
+    <button id="authButton" class="btn btn-secondary" style="position: absolute; top: 10px; right: 10px;">Включить режим редактирования</button>
+    
+    <div class="container">
+        <div class="flip-book" id="demoBookExample">
+            <div class="page page-cover page-cover-top" data-density="hard"></div>
+            <!-- PAGES ....--> 
+            <div class="page" id="page-1">
+                <div class="page-content">
+                    <img class="page-image" src="img/001.jpg" />
+                    <div class="page-content" style="overflow: hidden; position: relative;">
+                        <img class="page-image" src="img/001.jpg" />
+                    </div>
+                </div>
+            </div>
+            <div class="page" id="page-2">
+                <div class="page-content">
+                    <img class="page-image" src="img/002.jpg"/>
+                    <div class="page-footer">3</div> 
+                </div>
+            </div>
+            <div class="page" id="page-3">
+                <div class="page-content">
+                    <img class="page-image" src="img/003.jpg"/>
+                    <div class="page-footer">4</div> 
+                </div>
+            </div>
+            <div class="page" id="page-4">
+                <div class="page-content">
+                    <img class="page-image" src="img/004.jpg"/>
+                    <div class="page-footer">5</div> 
+                </div>
+            </div>
+            <div class="page" id="page-5">
+                <div class="page-content">
+                    <img class="page-image" src="img/005.jpg"/>
+                    <div class="page-footer">6</div> 
+                </div>
+            </div>
+            <div class="page" id="page-6">
+                <div class="page-content">
+                    <img class="page-image" src="img/006.jpg"/>
+                    <div class="page-footer">7</div> 
+                </div>
+            </div>
+            <div class="page" id="page-7">
+                <div class="page-content">
+                    <img class="page-image" src="img/007.jpg"/>
+                    <div class="page-footer">8</div> 
+                </div>
+            </div>
+            <div class="page" id="page-8">
+                <div class="page-content">
+                    <img class="page-image" src="img/008.jpg"/>
+                    <div class="page-footer">9</div> 
+                </div>
+            </div>
+            <div class="page" id="page-9">
+                <div class="page-content">
+                    <img class="page-image" src="img/009.jpg"/>
+                    <div class="page-footer">10</div> 
+                </div>
+            </div>
+            <div class="page" id="page-10">
+                <div class="page-content">
+                    <img class="page-image" src="img/010.jpg"/>
+                    <div class="page-footer">11</div> 
+                </div>
+            </div>
+            <div class="page" id="page-11">
+                <div class="page-content">
+                    <img class="page-image" src="img/011.jpg"/>
+                    <div class="page-footer">12</div> 
+                </div>
+            </div>
+            <div class="page" id="page-12">
+                <div class="page-content">
+                    <img class="page-image" src="img/012.jpg"/>
+                    <div class="page-footer">13</div> 
+                </div>
+            </div>
+            <!-- Добавьте остальные страницы аналогично -->
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 10px;">
+        <button type="button" id="toggleZoom" class="btn btn-secondary">Включить режим масштабирования</button>
+        <button type="button" id="zoomIn" class="btn btn-secondary">Увеличить</button>
+        <button type="button" id="zoomOut" class="btn btn-secondary">Уменьшить</button>
+    </div>
+    <div class="container">
+        <div style="display: flex;justify-content: space-between">
+            <button type="button" class="btn btn-secondary btn-prev"><<</button>
+            <div>[<span class="page-current">1</span> of <span class="page-total">-</span>]</div>
+            <button type="button" class="btn btn-secondary btn-next">>></button>
+        </div>
+
+        <div style="display:none">
+            State: <i class="page-state">read</i>, orientation: <i class="page-orientation">landscape</i>
+        </div> <!---->
+    </div>
+</body>
+</html>
+<script src="js/StPageFlip.js"></script>
+<script src="js/searchPage.js"></script>
+<script src="js/Zoom.js"></script>
+<script src="js/Sidebar.js"></script>
+<script>
+    // Имя целевого файла
+    const targetFileName = 'index.html';
+
+    // Получаем текущие запуски из localStorage
+    let launches = JSON.parse(localStorage.getItem(targetFileName + '_launches')) || [];
+    let dailyCounts = JSON.parse(localStorage.getItem(targetFileName + '_dailyCounts')) || {};
+
+    // Получаем текущее время
+    const currentTime = new Date();
+    const formattedTime = currentTime.toLocaleString();
+    const currentDate = currentTime.toISOString().split('T')[0]; // Формат YYYY-MM-DD
+
+    // Добавляем новый запуск
+    launches.push(formattedTime);
+    localStorage.setItem(targetFileName + '_launches', JSON.stringify(launches));
+
+    // Увеличиваем счетчик запусков за текущий день
+    if (!dailyCounts[currentDate]) {
+        dailyCounts[currentDate] = 0;
+    }
+    dailyCounts[currentDate]++;
+    localStorage.setItem(targetFileName + '_dailyCounts', JSON.stringify(dailyCounts));
+</script>
+<script>
+    // Добавляем обработчик события для кнопки авторизации
+    document.getElementById('authButton').addEventListener('click', function() {
+        window.location.href = 'http://localhost:8000/Downloads/kNIGA/auth/index.html';
+    });
+</script>
