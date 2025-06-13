@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система аудита</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: #333;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input[type="date"] {
+    margin: 10px;
+}
+    </style>
+</head>
+<body>
+    <h1>Система аудита</h1>
+    
+    <label for="datePicker">Выберите дату:</label>
+    <input type="date" id="datePicker" />
+    <button id="viewButton">Посмотреть запуски</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Файл</th>
+                <th>Запуски</th>
+                <th>Общее количество запусков за день</th>
+            </tr>
+        </thead>
+        <tbody id="launchTableBody">
+            <!-- Данные будут добавлены здесь с помощью JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Получаем данные о запусках из localStorage для обоих файлов
+const targetFiles = ['index.html', 'auth/editor.html'];
+const launchTableBody = document.getElementById('launchTableBody');
+const datePicker = document.getElementById('datePicker');
+const viewButton = document.getElementById('viewButton');
+
+// Функция для отображения данных
+function displayLaunchData(selectedDate) {
+    // Очищаем таблицу перед добавлением новых данных
+    launchTableBody.innerHTML = '';
+
+    targetFiles.forEach(targetFileName => {
+        const launches = JSON.parse(localStorage.getItem(targetFileName + '_launches')) || [];
+        const dailyCounts = JSON.parse(localStorage.getItem(targetFileName + '_dailyCounts')) || {};
+
+        // Создаем строку таблицы с данными
+        const row = document.createElement('tr');
+        const launchList = launches.map(launch => `<li>${launch}</li>`).join('');
+        const countForSelectedDate = dailyCounts[selectedDate] || 0;
+
+        row.innerHTML = `
+            <td>${targetFileName}</td>
+            <td>
+                <ul>
+                    ${launchList}
+                </ul>
+            </td>
+            <td>${countForSelectedDate}</td>
+        `;
+
+        // Добавляем строку в таблицу
+        launchTableBody.appendChild(row);
+    });
+}
+
+// Обработчик события для кнопки
+viewButton.addEventListener('click', () => {
+    const selectedDate = datePicker.value;
+    if (selectedDate) {
+        displayLaunchData(selectedDate);
+    } else {
+        alert('Пожалуйста, выберите дату.');
+    }
+});
+    </script>
+</body>
+</html>
