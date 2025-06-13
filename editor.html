@@ -1,0 +1,240 @@
+<meta charset="UTF-8">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Редактирование книги</title>
+
+
+<link rel="stylesheet" href="css/bootstrap.css">
+
+
+<style>
+
+
+    .container {
+
+
+        margin-top: 20px;
+
+
+    }
+
+
+    .form-group {
+
+
+        margin-bottom: 15px;
+
+
+    }
+
+
+</style>
+
+</head> <body>
+
+<div class="container">
+
+
+    <h1>Редактирование книги</h1>
+
+
+    <form id="editBookForm">
+
+
+        <div class="form-group">
+
+
+            <label for="pageNumber">Номер страницы</label>
+
+
+            <input type="number" class="form-control" id="pageNumber" placeholder="Введите номер страницы" required>
+
+
+        </div>
+
+
+        <div class="form-group">
+
+
+            <label for="pageTitle">Заголовок страницы</label>
+
+
+            <input type="text" class="form-control" id="pageTitle" placeholder="Введите заголовок страницы" required>
+
+
+        </div>
+
+
+        <div class="form-group">
+
+
+            <label for="pageImage">Ссылка на изображение</label>
+
+
+            <input type="text" class="form-control" id="pageImage" placeholder="Введите URL изображения" required>
+
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <button id="createPageBtn">Создать новую страницу</button>
+        <button type="button" class="btn btn-danger" id="deletePageButton">Удалить страницу</button>
+
+
+        <button type="button" class="btn btn-secondary" id="cancelButton">Возврат в режим чтения</button>
+
+
+    </form>
+
+
+</div>
+
+
+
+<script>
+
+
+    // Обработчик события для кнопки "Отмена"
+
+
+    document.getElementById('cancelButton').addEventListener('click', function() {
+
+
+        window.location.href = 'index.html'; // Перенаправление на главную страницу
+
+
+    });
+    document.getElementById('createPageBtn').addEventListener('click', function() {
+
+const newPageId = `page-${Date.now()}`; // Генерация уникального ID
+
+localStorage.setItem(newPageId, ''); // Создание новой страницы с пустым содержимым
+
+alert(`Новая страница создана с ID: ${newPageId}`);
+
+// Обновите интерфейс, чтобы отобразить новую страницу
+
+});
+
+function updatePageList() {
+
+const pageList = document.getElementById('pageList');
+
+const newPageItem = document.createElement('li');
+
+newPageItem.textContent = newPageId; // Используйте ID новой страницы
+
+pageList.appendChild(newPageItem);
+
+}
+function savePageContent(pageId, content) {
+
+localStorage.setItem(pageId, content);
+
+}
+
+    // Обработчик события для формы
+
+
+    document.getElementById('editBookForm').addEventListener('submit', function(event) {
+
+
+        event.preventDefault(); // Предотвращаем отправку формы
+
+
+
+        // Получаем значения из формы
+
+
+        const pageNumber = document.getElementById('pageNumber').value;
+
+
+        const pageTitle = document.getElementById('pageTitle').value;
+
+
+        const pageImage = document.getElementById('pageImage').value;
+
+
+
+        // Сохраняем данные в localStorage
+
+
+        const pageData = {
+
+
+            title: pageTitle,
+
+
+            image: pageImage
+
+
+        };
+
+
+        localStorage.setItem(`page-${pageNumber}`, JSON.stringify(pageData));
+
+
+
+        alert(`Изменения сохранены для страницы ${pageNumber}:\nЗаголовок: ${pageTitle}\nИзображение: ${pageImage}`);
+
+
+        window.location.href = 'index.html'; // Перенаправление на главную страницу после сохранения
+
+
+    });
+
+
+
+    // Обработчик события для кнопки "Удалить страницу"
+
+
+    document.getElementById('deletePageButton').addEventListener('click', function() {
+
+
+        const pageNumber = document.getElementById('pageNumber').value;
+
+
+        if (localStorage.getItem(`page-${pageNumber}`)) {
+
+localStorage.removeItem(`page-${pageNumber}`);
+
+alert(`Страница ${pageNumber} была удалена.`);
+
+} else {
+
+alert(`Страница ${pageNumber} не найдена.`);
+}
+    });
+</script>
+<script>
+    // Имя целевого файла
+    const targetFileName = 'auth/editor.html';
+
+    // Получаем текущие запуски из localStorage
+    let launches = JSON.parse(localStorage.getItem(targetFileName + '_launches')) || [];
+    let dailyCounts = JSON.parse(localStorage.getItem(targetFileName + '_dailyCounts')) || {};
+
+    // Получаем текущее время
+    const currentTime = new Date();
+    const formattedTime = currentTime.toLocaleString();
+    const currentDate = currentTime.toISOString().split('T')[0]; // Формат YYYY-MM-DD
+
+    // Добавляем новый запуск
+    launches.push(formattedTime);
+    localStorage.setItem(targetFileName + '_launches', JSON.stringify(launches));
+
+    // Увеличиваем счетчик запусков за текущий день
+    if (!dailyCounts[currentDate]) {
+        dailyCounts[currentDate] = 0;
+    }
+    dailyCounts[currentDate]++;
+    localStorage.setItem(targetFileName + '_dailyCounts', JSON.stringify(dailyCounts));
+</script>
+</body> </html>
