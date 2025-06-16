@@ -17,7 +17,7 @@
     
         function loadPageData() {
     
-            for (let i = 1; i <= 100; i++) { // количество страниц
+            for (let i = 1; i <= 95; i++) { // количество страниц
     
                 const pageData = localStorage.getItem(`page-${i}`);
     
@@ -645,9 +645,4 @@
     }
     dailyCounts[currentDate]++;
     localStorage.setItem(targetFileName + '_dailyCounts', JSON.stringify(dailyCounts));
-</script>
-<script>
-    document.getElementById('authButton').addEventListener('click', function() {
-        window.location.href = 'http://localhost:8000/Downloads/kNIGA/auth.html';
-    });
 </script>
